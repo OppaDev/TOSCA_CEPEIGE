@@ -67,6 +67,7 @@ const SetSelectionModule = require('./scripts/modules/set_selection')
 const SetResolutionModule = require('./scripts/modules/set_resolution')
 const TimeMapModule = require('./scripts/modules/time_map')
 const QueryModule = require('./scripts/modules/query')
+const LatacungaModule = require('./scripts/modules/cotopaxi_scenarios')
 
 const modules = {
   "add_location": new AddLocationModule(),
@@ -74,7 +75,8 @@ const modules = {
   "set_selection": new SetSelectionModule(),
   "set_resolution": new SetResolutionModule(),
   "time_map": new TimeMapModule(),
-  "query": new QueryModule()
+  "query": new QueryModule(),
+  "cotopaxi_scenarios": new LatacungaModule()
 }
 
 // launch a module
@@ -212,7 +214,7 @@ app.use((err, req, res, next) => {
 
   // GRASS errors
   let grassError = ''
-  if (err.message.match(/Starting GRASS GIS/)) {
+  if (err.message && err.message.match(/Starting GRASS GIS/)) {
     let errorMessageOngoing = false
     for (const line of err.message.split('\n')) {
       const errorMatch = line.match(/^ERROR/)

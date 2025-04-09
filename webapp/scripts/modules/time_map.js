@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { addVector, gpkgOut, grass, initMapset, listVector, mapsetExists, remove } = require('../grass')
+const { addVector, getValueSetsVector, gpkgOut, grass, initMapset, listVector, mapsetExists, remove } = require('../grass')
 const { checkWritableDir, mergePDFs, psToPDF, textToPS } = require('../helpers')
 const translations = require(`../../i18n/messages.${process.env.USE_LANG || 'en'}.json`)
 
@@ -111,10 +111,17 @@ module.exports = class {
 
       case 'time_map.3':
         if (message.match(/drawing\.geojson/)) {
-          addVector(this.mapset, message, 'm1_stricken_area')
-          gpkgOut(this.mapset, 'm1_stricken_area', 'm1_stricken_area')
           this.strickenArea = 'm1_stricken_area'
+          addVector(this.mapset, message, this.strickenArea)
+          gpkgOut(this.mapset, this.strickenArea, this.strickenArea)
           return { id: 'time_map.4', message: translations['time_map.message.4'] }
+        } else if (message === 'risk_zone') {
+          this.strickenArea = 'm1_stricken_area'
+          return {
+            id: 'time_map.12',
+            message: translations['time_map.message.12'],
+            list: listVector('cotopaxi_scenarios').filter(layer => layer.match(/^(ash_fall|lahar_flow|lava_flow)_zones@cotopaxi_scenarios$/))
+          }
         }
         this.strickenArea = null;
         this.calculate()
@@ -123,6 +130,23 @@ module.exports = class {
           message: translations['time_map.message.6'],
           result: this.outfile
         }
+
+      case 'time_map.12':
+        this.zonesLayer = message
+        return {
+          id: 'time_map.13',
+          message: translations['time_map.message.13'],
+          list: getValueSetsVector(this.mapset, this.zonesLayer)
+        }
+
+      case 'time_map.13': {
+        // Extract matching features and store them in queryZone
+        const [col, val] = message
+        console.log(col, val)
+        grass(this.mapset, `v.extract input=${this.zonesLayer} where="${col} = '${val}'" output=${this.strickenArea} --overwrite`)
+        gpkgOut(this.mapset, this.strickenArea, this.strickenArea)
+        return { id: 'time_map.4', message: translations['time_map.message.4'] }
+      }
 
       case 'time_map.4':
         this.reductionRatio = parseFloat(message) / 100

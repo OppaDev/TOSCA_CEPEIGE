@@ -1,0 +1,21 @@
+<dataStore>
+  <id>DataStoreInfoImpl-62541fb6:17582a8f9e8:-7ff2</id>
+  <name>ltca_producer_associations</name>
+  <description>Cotopaxi producer associations</description>
+  <type>GeoPackage</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl-53a0964:16fc2624139:-7fff</id>
+  </workspace>
+  <connectionParameters>
+    <entry key="Batch insert size">1</entry>
+    <entry key="database">file:data/latacunga/asociaciones_productoras.gpkg</entry>
+    <entry key="fetch size">1000</entry>
+    <entry key="Expose primary keys">false</entry>
+    <entry key="dbtype">geopkg</entry>
+    <entry key="namespace">vector</entry>
+  </connectionParameters>
+  <__default>false</__default>
+  <dateCreated>2020-11-01 12:18:15.605 UTC</dateCreated>
+  <dateModified>2025-04-03 23:47:13.258 UTC</dateModified>
+</dataStore>

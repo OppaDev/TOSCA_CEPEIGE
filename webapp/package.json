@@ -1,8 +1,8 @@
 {
-  "name": "tosca",
+  "name": "open-city-toolkit",
   "version": "0.1.0",
-  "description": "TOSCA",
-  "repository": "https://github.com/digitalcityscience/TOSCA",
+  "description": "Open City Toolkit (pilot application)",
+  "repository": "https://github.com/citysciencelab/open-city-toolkit",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

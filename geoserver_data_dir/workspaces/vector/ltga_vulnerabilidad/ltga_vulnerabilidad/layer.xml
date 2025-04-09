@@ -1,0 +1,17 @@
+<layer>
+  <name>ltga_vulnerabilidad</name>
+  <id>LayerInfoImpl-48f7d5ed:176037f66b1:-7ffa</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--5e4b8723:17401e38cbf:-7027</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-48f7d5ed:176037f66b1:-7ffb</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2020-11-26 07:47:33.971 UTC</dateCreated>
+  <dateModified>2020-11-26 07:48:15.794 UTC</dateModified>
+</layer>
