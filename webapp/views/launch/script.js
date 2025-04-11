@@ -204,43 +204,11 @@ function handleResponse(res) {
                 textarea.append($(`<span id="${messageId}-error" class="validation-error">${t['error:draw polygon']}</span>`));
               }
             }),
-            buttonElement(t['Use risk zone']).click(() => {
-              reply(res, 'risk_zone');
-            }),
             buttonElement(t['Skip']).click(() => {
               reply(res, 'cancel');
             })
           ];
           break;
-
-        // use risk zone as affected area
-        case 'time_map.12':
-          form = formElement(messageId);
-          lists.append($(`<select id="${messageId}-input" class='custom-select' size="3">` + list.map(col => `<option selected value="${col}">${col}</option>`) + `</select>`));
-          buttons = [
-            buttonElement(t['Submit']).click(() => {
-              const input = $(`#${messageId}-input`);
-              reply(res, input[0].value);
-            })
-          ];
-          break;
-
-        case 'time_map.13': {
-          const query = $(`<div class="query"></div>`);
-          query.append(queryElement(list, messageId));
-          lists.append(query);
-
-          buttons = [
-            buttonElement(t['Submit']).click(() => {
-              const query = $(`#${messageId}`);
-              const attr = query.find('.attr').val();
-              const value = query.find('.value').val();
-
-              reply(res, [attr, value]);
-            })
-          ];
-          break;
-        }
 
         // Speed reduction ratio
         case 'time_map.4':
@@ -299,7 +267,7 @@ function handleResponse(res) {
 
         case 'query.3': {
           const query = $(`<div class='query'></div>`)
-          query.append(conditionElement(list, messageId))
+          query.append(conditionElement(list))
           lists.append(query);
 
           buttons = [
@@ -363,79 +331,6 @@ function handleResponse(res) {
             ];
           }
           break;
-
-        /* Cotopaxi module */
-        // Choose type of volcanic threat
-        case 'cotopaxi_scenarios.0':
-          form = formElement(messageId);
-          buttons = [
-            buttonElement(t['Ash fall']).click(() => {
-              reply(res, 'ash_fall');
-            }),
-            buttonElement(t['Lahar flows']).click(() => {
-              reply(res, 'lahar_flow');
-            }),
-            buttonElement(t['Lava flows']).click(() => {
-              reply(res, 'lava_flow');
-            })
-          ];
-          form.append(buttons);
-          break;
-
-        // Upload dataset containing risk zones
-        case 'cotopaxi_scenarios.1':
-          form = formElement(messageId);
-          form.append($(`<input id="${messageId}-input" type="file" name="file" />`));
-          buttons = [
-            buttonElement(t['Submit']).click(() => {
-              $(`#${messageId}-error`).remove();
-              const input = $(`#${messageId}-input`);
-              if (input[0].files.length) {
-                upload(form[0], { messageId: res.id }, handleResponse);
-              } else {
-                textarea.append($(`<span id="${messageId}-error" class="validation-error">${t['error:file upload']}</span>`));
-              }
-            })
-          ];
-          break;
-
-        // Select scenario using a query on the risk zones layer
-        case 'cotopaxi_scenarios.2': {
-          const query = $(`<div class="query"></div>`);
-          query.append(queryElement(list, messageId));
-          lists.append(query);
-
-          buttons = [
-            buttonElement(t['Submit']).click(() => {
-              const query = $(`#${messageId}`);
-              const attr = query.find('.attr').val();
-              const value = query.find('.value').val();
-
-              reply(res, [attr, value]);
-            })
-          ];
-          break;
-        }
-
-        // Select dataset for analysis
-        case 'cotopaxi_scenarios.3':
-          form = formElement(messageId);
-          lists.append($(`<select id="${messageId}-input" class='custom-select' size="10">` + list.map(col => `<option selected value="${col}">${col}</option>`) + `</select>`));
-          buttons = [
-            buttonElement(t['Submit']).click(() => {
-              const input = $(`#${messageId}-input`);
-              reply(res, input[0].value);
-            })
-          ];
-          break;
-
-        case 'cotopaxi_scenarios.4':
-          if (res.result) {
-            form = formElement(messageId);
-            buttons = [
-              buttonLinkElement(t['Open result'], 'output/' + res.result)
-            ];
-          }
       }
 
       textarea.append(text);
@@ -516,32 +411,6 @@ function conditionElement(data, id) {
 
   })
   return container
-}
-
-function queryElement(columnDefinitions, id) {
-  const container = $(`<div id="${id}" class="card-body border-info m-0 p-10"></div>`);
-
-  const row1 = $(`<div class="d-flex mb-2"><small>attribute</small></div>`);
-  const options1 = columnDefinitions.map(col => `<option value="${col.name}">${col.name}</option>`);
-  const select1 = $(`<select class="attr custom-select mr-2 ml-2">${options1}</select>`);
-  row1.append(select1);
-
-  const row2 = $(`<div class="d-flex mb-2"><small>value</small></div>`);
-  const select2 = $(`<select class="value custom-select mr-2 ml-2"></select>`);
-  let options2 = columnDefinitions.length ? columnDefinitions[0].rows.map(row => `<option value="${row}">${row}</option>`) : null;
-  select2.append(options2);
-  row2.append(select2);
-
-  container.append(row1);
-  container.append(row2);
-
-  select1.on('change', evt => {
-    const column = columnDefinitions.find(col => col.name === $(evt.target)[0].value);
-    options2 = column.rows.map(row => `<option value="${row}">${row}</option>`);
-    select2.children().remove();
-    select2.append(options2);
-  })
-  return container;
 }
 
 /**

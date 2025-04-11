@@ -1,9 +1,8 @@
-/* global $, t, get, deleteMethod */
+/* global $, get, deleteMethod */
 
 const modules = [
   { name: 'TIMEMAP', btnSelector: '#time-map-btn', regex: /^time/ },
   { name: 'QUERY', btnSelector: '#query-btn', regex: /^query/ },
-  { name: 'COTOPAXI', btnSelector: '#cotopaxi-btn', regex: /^cotopaxi/ },
   { name: 'ALL', btnSelector: '#all-btn', regex: /.*/ }
 ]
 
@@ -85,7 +84,7 @@ class Result {
     return `<tr>
   <td>${this.date.toDateString()}</td>
   <td><a href="/output/${this.file}" target="_blank">${this.file}</a></td>
-  <td><button type="button" class="btn btn-outline-danger" value="${this.file}" onclick="resultModal.onClickDelete(this)">${t['Delete']}</button></td>
+  <td><button type="button" class="btn btn-outline-danger" value="${this.file}" onclick="resultModal.onClickDelete(this)">Delete</button></td>
 </tr>`;
   }
 }

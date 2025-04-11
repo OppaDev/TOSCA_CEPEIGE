@@ -1,8 +1,0 @@
-/* @title Sirens  */
-* {
-   mark: symbol(triangle);
-   :nth-mark(1){
-    size:20;
-   fill: red;
-	}
-}

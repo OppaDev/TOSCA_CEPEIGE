@@ -1,8 +1,0 @@
-/* @title Puntos seguros */
-* {
-	mark: symbol(circle);
-	:nth-mark(1){
-	size:10;
-	fill: red;
-	}
-}
