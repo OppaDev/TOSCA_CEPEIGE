@@ -10,6 +10,7 @@
 /grass/variables/*
 !/grass/variables/defaults
 /output/*
+webapp/.env
 
 # Node.js dependencies
 node_modules
